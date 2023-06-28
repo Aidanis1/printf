@@ -25,22 +25,22 @@ int handle_write_char(char c, char buffer[],int flags, int width, int precision,
 	}
 
 	buffer[j++] = c;
-	buffer[i] = '\0';
+	buffer[j] = '\0';
 
 	if (width > 1)
 	{
 		buffer[BUFF_SIZE - 1] = '\0';
 		for (j = 0; j < width - 1; j++)
 		{
-			buffer[BUFF_SIZE - j - 2] = padd;
+			buffer[BUFF_SIZE - j - 2] = pad;
 		}
 		if (flags & F_MINUS)
 		{
-			return (write(1, &buffer[0], 1) + write(1, &buffer[BUFF_SIZE - i - 1], width - 1));
+			return (write(1, &buffer[0], 1) + write(1, &buffer[BUFF_SIZE - j - 1], width - 1));
 		}
 		else
 		{
-			return (write(1, &buffer[BUFF_SIZE - i - 1], width - 1) + write(1, &buffer[0], 1));
+			return (write(1, &buffer[BUFF_SIZE - j - 1], width - 1) + write(1, &buffer[0], 1));
 		}
 	}
 	return (write(1, &buffer[0], 1));
@@ -79,10 +79,10 @@ int write_number(int is_negative, int ind, char buffer[],int flags, int width, i
 	}
 	else if (flags & F_SPACE)
 	{
-		ext_ch = ' ':
+		ext_ch = ' ';
 	}
 	
-	return (write_num(ind, buffer, flags, width, precision,length, padd, extra_ch));
+	return (write_num(ind, buffer, flags, width, precision,len, pad, ext_ch));
 }
 
 /**
@@ -102,6 +102,7 @@ int write_number(int is_negative, int ind, char buffer[],int flags, int width, i
 int write_num(int ind, char buffer[],int flags, int width, int prec,int length, char padd, char extra_c)
 {
 	int j, pad_beg = 1;
+
 	if (prec == 0 && ind == BUFF_SIZE - 2 && buffer[ind] == '0' && width == 0)
 	{
 		return (0);
@@ -118,7 +119,7 @@ int write_num(int ind, char buffer[],int flags, int width, int prec,int length, 
 	{
 		buffer[--ind] = '0', length++;
 	}
-	f (extra_c != 0)
+	if (extra_c != 0)
 	{
 		length++;
 	}

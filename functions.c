@@ -32,7 +32,7 @@ int print_char(va_list types, char buffer[],int flags, int width, int precision,
 
 int print_string(va_list types, char buffer[],int flags, int width, int precision, int size)
 {
-	int length = 0, i;
+	int length = 0, j;
 	char *str = va_arg(types, char *);
 
 	UNUSED(buffer);
@@ -40,39 +40,48 @@ int print_string(va_list types, char buffer[],int flags, int width, int precisio
 	UNUSED(width);
 	UNUSED(precision);
 	UNUSED(size);
+
 	if (str == NULL)
 	{
 		str = "(null)";
 		if (precision >= 6)
+		{
 			str = "      ";
+		}
 	}
 
 	while (str[length] != '\0')
+	{
 		length++;
-
+	}
 	if (precision >= 0 && precision < length)
+	{
 		length = precision;
-
+	}
 	if (width > length)
 	{
-		if ((flags & F_MINUS)
+		if (flags & F_MINUS)
 		{
 			write(1, &str[0], length);
-			for (i = width - length; i > 0; i--)
+			for (j = width - length; j > 0; j--)
+			{
 				write(1, " ", 1);
-			return (width);
-		}		
+			}
+			return width;
+		}
 		else
 		{
-			for (i = width - length; i > 0; i--)
+			for (j = width - length; j > 0; j--)
+			{
 				write(1, " ", 1);
+			}
 			write(1, &str[0], length);
-			return (width);
+			return width;
 		}
 	}
-	return (write(1, str, length));
+	return write(1, str, length);
 }
-/************************* PRINT PERCENT SIGN *************************/
+
 /**
  * print_percent - Prints a percent sign
  * @types: Lista of arguments
