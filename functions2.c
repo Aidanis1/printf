@@ -153,7 +153,7 @@ int print_rot13string(va_list types, char buffer[], int flags, int width, int pr
 	char *str;
 	unsigned int x, y;
 	int count = 0;
-	charin[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	char in[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	char out[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
 
 	str = va_arg(types, char *);
@@ -164,14 +164,17 @@ int print_rot13string(va_list types, char buffer[], int flags, int width, int pr
 	UNUSED(size);
 
 	if (str == NULL)
+	{
 		str = "(AHYY)";
-	for (x = 0; str[x]; x++);
+	}
+
+	for (x = 0; str[x]; x++)
 	{
 		for (y = 0; in[y]; y++)
 		{
 			if (in[y] == str[x])
 			{
-				z = ou[y];
+				z = out[y];
 				write(1, &z, 1);
 				count++;
 				break;
@@ -186,5 +189,3 @@ int print_rot13string(va_list types, char buffer[], int flags, int width, int pr
 	}
 	return (count);
 }
-
-

@@ -29,6 +29,7 @@ int handle_print(const char *fmt, int *ind, va_list list, char buffer[],
 		{
 			return (fmt_types[j].fn(list, buffer, flags, width, precision, size));
 		}
+	}
 		if (fmt_types[j].fmt == '\0')
 		{
 			if (fmt[*ind] == '\0')
@@ -46,12 +47,11 @@ int handle_print(const char *fmt, int *ind, va_list list, char buffer[],
 				while (fmt[*ind] != ' ' && fmt[*ind] != '%')
 					--(*ind);
 				if (fmt[*ind] == ' ')
-					;
 				--(*ind);
 				return (1);
 			}
-			unknonw_len += write(1, &fmt[*ind], 1);
-		return (unknown_len);
-	}
-	return (printed_chars);
+			unknown_len += write(1, &fmt[*ind], 1);
+			return (unknown_len);
+		}
+	return (print_chars);
 }

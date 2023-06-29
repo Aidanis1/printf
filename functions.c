@@ -120,7 +120,7 @@ int print_int(va_list types, char buffer[], int flags, int width, int precision,
 {
 	int i = BUFF_SIZE - 2;
 	int is_negative = 0;
-	ong int n = va_arg(types, long int);
+	long int n = va_arg(types, long int);
 	unsigned long int num;
 
 	n = convert_size_number(n, size);
@@ -177,7 +177,7 @@ int print_binary(va_list types, char buffer[], int flags, int width, int precisi
 	for (i = 1; i < 32; i++)
 	{
 		m /= 2;
-		a[i] (n / m) % 2;
+		a[i] = (n / m) % 2;
 	}
 	for (i = 0, sum = 0, count = 0; i < 32; i++)
 	{
